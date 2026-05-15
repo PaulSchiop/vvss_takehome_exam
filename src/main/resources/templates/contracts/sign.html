@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign Free Agent</title>
+</head>
+<body>
+    <h1>Sign Free Agent</h1>
+    <form th:action="@{/contracts/sign}" th:object="${contract}" method="post">
+        <label>Player:</label>
+        <select th:field="*{player}">
+            <option th:each="p : ${players}" th:value="${p.id}" th:text="${p.name}"></option>
+        </select><br/><br/>
+        
+        <label>Team:</label>
+        <select th:field="*{team}">
+            <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option>
+        </select><br/><br/>
+
+        <label>Salary:</label>
+        <input type="number" th:field="*{salary}" required />
+        <span th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" style="color:red"></span>
+        <br/><br/>
+
+        <button type="submit">Sign Contract</button>
+    </form>
+    <br/>
+    <a th:href="@{/players}">View Players</a> | <a th:href="@{/teams}">View Teams</a> | <a th:href="@{/contracts/report}">Team Payroll Report</a>
+</body>
+</html>

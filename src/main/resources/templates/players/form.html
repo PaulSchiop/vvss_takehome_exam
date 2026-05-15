@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Player Form</title>
+</head>
+<body>
+    <h1 th:text="${player.id == null ? 'New Player' : 'Edit Player'}">Player Form</h1>
+    <form th:action="@{/players}" th:object="${player}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required /><br/><br/>
+        <label>Position:</label>
+        <input type="text" th:field="*{position}" required /><br/><br/>
+        <button type="submit">Save</button>
+    </form>
+    <a th:href="@{/players}">Back to list</a>
+</body>
+</html>
