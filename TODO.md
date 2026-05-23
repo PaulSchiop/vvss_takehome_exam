@@ -8,7 +8,7 @@
 
 ## Task 2: Testing I Progress
 - [x] Task 1: Black-Box Testing (BBT)
-- [ ] Task 2: White-Box Testing (WBT)
+- [x] Task 2: White-Box Testing (WBT)
 - [ ] Task 3: Integration Testing
 - [ ] Task 4: Final Summary & Cleanup
 
