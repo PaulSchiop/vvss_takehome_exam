@@ -1,6 +1,6 @@
 package com.vvss.exam.controller;
 
-import com.vvss.exam.entity.Player;
+import com.vvss.exam.dto.PlayerDTO;
 import com.vvss.exam.service.PlayerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,19 +21,19 @@ public class PlayerController {
 
     @GetMapping("/new")
     public String newPlayerForm(Model model) {
-        model.addAttribute("player", new Player());
+        model.addAttribute("player", new PlayerDTO());
         return "players/form";
     }
 
     @PostMapping
-    public String savePlayer(@ModelAttribute Player player) {
+    public String savePlayer(@ModelAttribute PlayerDTO player) {
         playerService.save(player);
         return "redirect:/players";
     }
 
     @GetMapping("/edit/{id}")
     public String editPlayerForm(@PathVariable Long id, Model model) {
-        model.addAttribute("player", playerService.findById(id).orElseThrow());
+        model.addAttribute("player", playerService.findById(id));
         return "players/form";
     }
 
