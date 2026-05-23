@@ -86,6 +86,10 @@ public class ContractService {
      * @throws com.vvss.exam.exception.ResourceNotFoundException if player or team is not found
      */
     public ContractDTO signFreeAgent(ContractRequestDTO request) {
+        if (request.getSalary() == null || request.getSalary() <= 0) {
+            throw new IllegalArgumentException("Salary must be positive");
+        }
+
         // Ensuring they exist via findById as requested (throws exception if not found)
         playerService.findById(request.getPlayerId());
         teamService.findById(request.getTeamId());
