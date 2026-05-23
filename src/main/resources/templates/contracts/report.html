@@ -9,26 +9,26 @@
         <label>Select Team:</label>
         <select name="teamId" onchange="this.form.submit()">
             <option value="">-- Select a Team --</option>
-            <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}" th:selected="${selectedTeam != null and selectedTeam.id == t.id}"></option>
+            <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}" th:selected="${report != null and report.teamName == t.name}"></option>
         </select>
         <button type="submit">View Report</button>
     </form>
 
-    <div th:if="${selectedTeam != null}">
-        <h2 th:text="'Report for ' + ${selectedTeam.city} + ' ' + ${selectedTeam.name}">Report</h2>
+    <div th:if="${report != null}">
+        <h2 th:text="'Report for ' + ${report.teamName}">Report</h2>
         <table border="1">
             <tr>
                 <th>Player Name</th>
                 <th>Position</th>
                 <th>Salary</th>
             </tr>
-            <tr th:each="c : ${contracts}">
-                <td th:text="${c.player.name}"></td>
-                <td th:text="${c.player.position}"></td>
+            <tr th:each="c : ${report.contracts}">
+                <td th:text="${c.playerDTO.name}"></td>
+                <td th:text="${c.playerDTO.position}"></td>
                 <td th:text="${c.salary}"></td>
             </tr>
         </table>
-        <h3>Total Payroll: <span th:text="${totalPayroll}"></span></h3>
+        <h3>Total Payroll: <span th:text="${report.totalPayroll}"></span></h3>
     </div>
     
     <br/>
