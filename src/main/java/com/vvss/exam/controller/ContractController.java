@@ -1,7 +1,10 @@
 package com.vvss.exam.controller;
 
+import com.vvss.exam.dto.ContractRequestDTO;
+import com.vvss.exam.dto.TeamDTO;
+import com.vvss.exam.dto.TeamReportDTO;
 import com.vvss.exam.entity.Contract;
-import com.vvss.exam.entity.Team;
+import com.vvss.exam.exception.ResourceNotFoundException;
 import com.vvss.exam.service.ContractService;
 import com.vvss.exam.service.PlayerService;
 import com.vvss.exam.service.TeamService;
@@ -24,20 +27,20 @@ public class ContractController {
 
     @GetMapping("/sign")
     public String signFreeAgentForm(Model model) {
-        model.addAttribute("contract", new Contract());
+        model.addAttribute("contractRequest", new ContractRequestDTO());
         model.addAttribute("players", playerService.findAll());
         model.addAttribute("teams", teamService.findAll());
         return "contracts/sign";
     }
 
     @PostMapping("/sign")
-    public String signFreeAgent(@Valid @ModelAttribute Contract contract, BindingResult bindingResult, Model model) {
+    public String signFreeAgent(@Valid @ModelAttribute("contractRequest") ContractRequestDTO request, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("players", playerService.findAll());
             model.addAttribute("teams", teamService.findAll());
             return "contracts/sign";
         }
-        contractService.save(contract);
+        contractService.signFreeAgent(request);
         return "redirect:/contracts/report";
     }
 
@@ -45,13 +48,11 @@ public class ContractController {
     public String reportForm(Model model, @RequestParam(required = false) Long teamId) {
         model.addAttribute("teams", teamService.findAll());
         if (teamId != null) {
-            Team team = teamService.findById(teamId).orElse(null);
-            if (team != null) {
-                List<Contract> contracts = contractService.findByTeamId(teamId);
-                Integer totalPayroll = contractService.calculateTeamPayroll(teamId);
-                model.addAttribute("selectedTeam", team);
-                model.addAttribute("contracts", contracts);
-                model.addAttribute("totalPayroll", totalPayroll);
+            try {
+                TeamReportDTO report = contractService.getTeamPayrollReport(teamId);
+                model.addAttribute("report", report);
+            } catch (ResourceNotFoundException e) {
+                // Team not found, just don't add to model
             }
         }
         return "contracts/report";

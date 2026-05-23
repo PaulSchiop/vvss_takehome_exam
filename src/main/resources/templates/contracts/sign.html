@@ -5,14 +5,14 @@
 </head>
 <body>
     <h1>Sign Free Agent</h1>
-    <form th:action="@{/contracts/sign}" th:object="${contract}" method="post">
+    <form th:action="@{/contracts/sign}" th:object="${contractRequest}" method="post">
         <label>Player:</label>
-        <select th:field="*{player}">
+        <select th:field="*{playerId}">
             <option th:each="p : ${players}" th:value="${p.id}" th:text="${p.name}"></option>
         </select><br/><br/>
         
         <label>Team:</label>
-        <select th:field="*{team}">
+        <select th:field="*{teamId}">
             <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}"></option>
         </select><br/><br/>
 

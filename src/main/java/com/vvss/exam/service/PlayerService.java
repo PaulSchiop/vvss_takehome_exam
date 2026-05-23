@@ -27,6 +27,11 @@ public class PlayerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Player not found with id: " + id));
     }
 
+    public Player findEntityById(Long id) {
+        return playerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Player not found with id: " + id));
+    }
+
     public PlayerDTO save(PlayerDTO playerDTO) {
         Player player = new Player();
         player.setId(playerDTO.getId());

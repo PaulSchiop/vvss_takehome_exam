@@ -1,6 +1,6 @@
 package com.vvss.exam.controller;
 
-import com.vvss.exam.entity.Team;
+import com.vvss.exam.dto.TeamDTO;
 import com.vvss.exam.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,19 +21,19 @@ public class TeamController {
 
     @GetMapping("/new")
     public String newTeamForm(Model model) {
-        model.addAttribute("team", new Team());
+        model.addAttribute("team", new TeamDTO());
         return "teams/form";
     }
 
     @PostMapping
-    public String saveTeam(@ModelAttribute Team team) {
+    public String saveTeam(@ModelAttribute TeamDTO team) {
         teamService.save(team);
         return "redirect:/teams";
     }
 
     @GetMapping("/edit/{id}")
     public String editTeamForm(@PathVariable Long id, Model model) {
-        model.addAttribute("team", teamService.findById(id).orElseThrow());
+        model.addAttribute("team", teamService.findById(id));
         return "teams/form";
     }
 
