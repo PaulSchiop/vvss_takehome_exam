@@ -37,4 +37,15 @@ public class ContractGUITest {
                 .andExpect(content().string(containsString("id=\"teamId\"")))
                 .andExpect(content().string(containsString("id=\"salary\"")));
     }
+
+    @Test
+    public void testValidationFeedback() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/contracts/sign")
+                        .param("playerId", "1")
+                        .param("teamId", "1")
+                        .param("salary", "-100"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("contracts/sign"))
+                .andExpect(content().string(containsString("Salary must be strictly positive")));
+    }
 }
